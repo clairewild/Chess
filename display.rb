@@ -1,8 +1,3 @@
-require_relative "board.rb"
-require_relative "cursor.rb"
-require_relative "piece.rb"
-
-require 'byebug'
 require "colorize"
 
 class Display
@@ -11,6 +6,7 @@ class Display
   def initialize(board, cursor)
     @board = board
     @cursor = cursor
+    @flag = true
   end
 
   def render
@@ -25,6 +21,11 @@ class Display
     while true
       render
       cursor.get_input
+      pos = cursor.cursor_pos
+      unless board[pos].is_a?(NullPiece)
+        print board[pos].valid_moves if @flag
+        sleep(10)
+      end
     end
   end
 
@@ -41,14 +42,4 @@ class Display
     row.join(" ")
   end
 
-end
-
-if __FILE__ == $PROGRAM_NAME
-  pos = [0,0]
-
-  p board = Board.new
-  p cursor = Cursor.new(pos, board)
-  show = Display.new(board, cursor)
-
-  show.display
 end

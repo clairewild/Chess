@@ -1,5 +1,4 @@
 require "io/console"
-require "byebug"
 
 KEYMAP = {
   " " => :space,
@@ -24,7 +23,7 @@ KEYMAP = {
   "\u0003" => :ctrl_c
 }
 
-MOVES = {
+KEY_MOVES = {
   left: [0, -1],
   right: [0, 1],
   up: [-1, 0],
@@ -77,12 +76,11 @@ class Cursor
   end
 
   def handle_key(key)
-    # debugger
     case key
     when :return, :space
       @curser_pos
     when :left, :right, :up, :down
-      update_pos(MOVES[key])
+      update_pos(KEY_MOVES[key])
       nil
     when :ctrl_c
       Process.exit(0)
